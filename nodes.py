@@ -29,10 +29,12 @@ class TileSplit:
     def split(self, image, tile_height, tile_width, overlap):
 
         height, width = image.shape[1], image.shape[2]
+        overlap_x = overlap
+        overlap_y = int(overlap * (tile_height / tile_width))
 
         tiles = []
-        for y in range(0, height-tile_height+1, tile_height-overlap):
-            for x in range(0, width-tile_width+1, tile_width-overlap):
+        for y in range(0, height-tile_height+1, tile_height-overlap_y):
+            for x in range(0, width-tile_width+1, tile_width-overlap_x):
                 tile = image[:, y:y+tile_height, x:x+tile_width, :]
                 tiles.append(tile)
 
@@ -62,6 +64,8 @@ class TileMerge:
         tiles = images
         tile_height, tile_width = images.shape[1], images.shape[2]
         original_shape = (1, final_height, final_width, 3)
+        overlap_x = overlap
+        overlap_y = int(overlap * (tile_height / tile_width))
 
         batch, height, width, channels = original_shape
         output = torch.zeros(original_shape, dtype=tiles.dtype)
@@ -71,8 +75,8 @@ class TileMerge:
         # for 3x3: custom_order = [0, 2, 6, 8, 1, 3, 5, 7, 4] # First 4 corners, then the sides, then the center
 
         # Calculate grid dimensions
-        rows = (height - tile_height) // (tile_height - overlap) + 1
-        cols = (width - tile_width) // (tile_width - overlap) + 1
+        rows = (height - tile_height) // (tile_height - overlap_y) + 1
+        cols = (width - tile_width) // (tile_width - overlap_x) + 1
 
         # Calculate the center of the grid
         center_row, center_col = rows // 2, cols // 2
@@ -97,8 +101,8 @@ class TileMerge:
         
 
 
-        ys = [y for y in range(0, height-tile_height+1, tile_height-overlap)]
-        xs = [x for x in range(0, width-tile_width+1, tile_width-overlap)]
+        ys = [y for y in range(0, height-tile_height+1, tile_height-overlap_y)]
+        xs = [x for x in range(0, width-tile_width+1, tile_width-overlap_x)]
         for idx in custom_order:
 
             y = ys[idx // len(ys)]
@@ -151,9 +155,12 @@ class TileCalc:
     FUNCTION = "calc"
     CATEGORY = "utils"
     def calc(self, tile_height, tile_width, overlap, tile_width_n, tile_height_n):
+        overlap_x = overlap
+        overlap_y = int(overlap * (tile_height / tile_width))
 
-        final_height = tile_height * tile_height_n - overlap * (tile_height_n - 1)
-        final_width = tile_width * tile_width_n - overlap * (tile_width_n - 1)
+        final_height = tile_height * tile_height_n - overlap_y * (tile_height_n - 1)
+        final_width = tile_width * tile_width_n - overlap_x * (tile_width_n - 1)
+        print("Final height: {}, Final width: {}".format(final_height, final_width))
 
         return [final_height, final_width]
 
