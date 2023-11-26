@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), "co
 
 
 IMAGE_SIZE = 1472
-TILE_SIZE = 768
+TILE_SIZE = 4096
 OVERLAP = 64
 
 # Splits an image in four tiles and returns them as a list
@@ -16,9 +16,9 @@ class TileSplit:
     def INPUT_TYPES(s):
         return {"required":{
             "image": ("IMAGE", ),
-            "tile_height": ("INT", {"default": 512, "min": 512, "max": 768}),
-            "tile_width": ("INT", {"default": 512, "min": 512, "max": 768}),
-            "overlap": ("INT", {"default": 64, "min": 0, "max": 768}),
+            "tile_height": ("INT", {"default": 64, "min": 64, "max": 4096}),
+            "tile_width": ("INT", {"default": 64, "min": 64, "max": 4096}),
+            "overlap": ("INT", {"default": 64, "min": 0, "max": 4096}),
             }
         }
 
@@ -50,10 +50,10 @@ class TileMerge:
     def INPUT_TYPES(s):
         return {"required":{
             "images": ("IMAGE", ),
-            "overlap": ("INT", {"default": 64, "min": 0, "max": 768}),
-            "blend": ("INT", {"default": 64, "min": 0, "max": 768}),
-            "final_height": ("INT", {"default": 2048, "min": 0, "max": 4096}),
-            "final_width": ("INT", {"default": 2048, "min": 0, "max": 4096}),
+            "overlap": ("INT", {"default": 64, "min": 0, "max": 4096}),
+            "blend": ("INT", {"default": 64, "min": 0, "max": 4096}),
+            "final_height": ("INT", {"default": 2048, "min": 0, "max": 9*4096}),
+            "final_width": ("INT", {"default": 2048, "min": 0, "max": 9*4096}),
             }
         }
 
@@ -142,11 +142,11 @@ class TileCalc:
     @classmethod
     def INPUT_TYPES(s):
         return {"required":{
-            "tile_height": ("INT", {"default": 512, "min": 512, "max": 768}),
-            "tile_width": ("INT", {"default": 512, "min": 512, "max": 768}),
-            "overlap": ("INT", {"default": 64, "min": 0, "max": 768}),
-            "tile_width_n": ("INT", {"default": 3, "min": 1, "max": 4}),
-            "tile_height_n": ("INT", {"default": 3, "min": 1, "max": 4}),
+            "tile_height": ("INT", {"default": 64, "min": 64, "max": 4096}),
+            "tile_width": ("INT", {"default": 64, "min": 64, "max": 4096}),
+            "overlap": ("INT", {"default": 64, "min": 0, "max": 4096}),
+            "tile_width_n": ("INT", {"default": 3, "min": 1, "max": 9}),
+            "tile_height_n": ("INT", {"default": 3, "min": 1, "max": 9}),
             }
         }
 
