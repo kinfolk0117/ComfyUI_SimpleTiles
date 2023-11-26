@@ -16,11 +16,3 @@ Merge tiles into image.
 Util to calculate final image size based on tile sizes and overlaps. 
 
 
-## Tiled LCM img2img workflow
-
-Drag and drop image in ComfyUI to load an example using LCM img2img to enhance the upscaled tiles.
-
-
-
-![Image showing an example workflow](out.png "Example workflow").
-
