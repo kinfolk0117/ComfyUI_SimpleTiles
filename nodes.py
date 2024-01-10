@@ -75,26 +75,26 @@ class TileMerge:
         # for 3x3: custom_order = [0, 2, 6, 8, 1, 3, 5, 7, 4] # First 4 corners, then the sides, then the center
 
         # Calculate grid dimensions
-        rows = (height - tile_height) // (tile_height - overlap_y) + 1
-        cols = (width - tile_width) // (tile_width - overlap_x) + 1
+        # rows = (height - tile_height) // (tile_height - overlap_y) + 1
+        # cols = (width - tile_width) // (tile_width - overlap_x) + 1
 
         # Calculate the center of the grid
-        center_row, center_col = rows // 2, cols // 2
+        # center_row, center_col = rows // 2, cols // 2
 
-        print("Rows: {}, Cols: {}".format(rows, cols))
-        print("Center row: {}, Center col: {}".format(center_row, center_col))
+        # print("Rows: {}, Cols: {}".format(rows, cols))
+        # print("Center row: {}, Center col: {}".format(center_row, center_col))
 
-        # Calculate the order in which to blend the tiles
-        # Order based on distance from center
-        distances = []
-        for i in range(rows):
-            for j in range(cols):
-                distance = abs(i - center_row) + abs(j - center_col)
-                distances.append(distance)
+        # # Calculate the order in which to blend the tiles
+        # # Order based on distance from center
+        # distances = []
+        # for i in range(rows):
+        #     for j in range(cols):
+        #         distance = abs(i - center_row) + abs(j - center_col)
+        #         distances.append(distance)
 
         # Sort the tiles based on distance from center
-        reverse_custom_order = sorted(range(len(distances)), key=lambda k: distances[k])
-        custom_order = reverse_custom_order[::-1]
+        # reverse_custom_order = sorted(range(len(distances)), key=lambda k: distances[k])
+        custom_order = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
         print("Custom order: {}".format(custom_order))
 
