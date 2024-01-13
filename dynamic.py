@@ -111,11 +111,6 @@ class DynamicTileSplit:
                 :,
             ]
 
-            from nodes import ImageScale
-
-            image_tile = ImageScale.upscale(
-                self, image_tile, "nearest-exact", 512, 512, "center"
-            )[0]
             image_tiles.append(image_tile)
 
         tiles_tensor = torch.stack(image_tiles).squeeze(1)
@@ -143,9 +138,17 @@ class DynamicTileMerge:
         overlap, final_height, final_width, offset = tile_calc
         tile_height = images.shape[1]
         tile_width = images.shape[2]
+        print("Tile height: {}".format(tile_height))
+        print("Tile width: {}".format(tile_width))
+        print("Final height: {}".format(final_height))
+        print("Final width: {}".format(final_width))
+        print("Overlap: {}".format(overlap))
 
         tile_coordinates = generate_tiles(
             final_width, final_height, tile_width, tile_height, overlap, offset
+        )
+        tile_coordinates = generate_tiles(
+            image_width, image_height, tile_width, tile_height, overlap, offset
         )
 
         print("Tile coordinates: {}".format(tile_coordinates))
