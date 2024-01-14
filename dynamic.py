@@ -147,9 +147,6 @@ class DynamicTileMerge:
         tile_coordinates = generate_tiles(
             final_width, final_height, tile_width, tile_height, overlap, offset
         )
-        tile_coordinates = generate_tiles(
-            image_width, image_height, tile_width, tile_height, overlap, offset
-        )
 
         print("Tile coordinates: {}".format(tile_coordinates))
         original_shape = (1, final_height, final_width, 3)
