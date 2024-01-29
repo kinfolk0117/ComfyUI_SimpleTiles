@@ -6,9 +6,7 @@ import torch
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), "comfy"))
 
 
-def order_by_center_last(
-    tiles, image_width, image_height, tile_width, tile_height, overlap_x, overlap_y
-):
+def order_by_center_last(tiles, image_width, image_height, tile_width, tile_height):
     # for 3x3: custom_order = [0, 2, 6, 8, 1, 3, 5, 7, 4] # First 4 corners, then the sides, then the center
     # order the tiles so they are add based on absolute distance from the center of the tile to the center of the image
     # this is done so that the center of the image is the last tile to be added, so that the center of the image is the most refined
@@ -66,7 +64,7 @@ def generate_tiles(
             break
         y = next_y
 
-    return tiles
+    return order_by_center_last(tiles, image_width, image_height, tile_width, tile_height)
 
 
 class DynamicTileSplit:
